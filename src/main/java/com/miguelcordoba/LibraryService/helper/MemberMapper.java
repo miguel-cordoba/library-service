@@ -2,12 +2,14 @@ package com.miguelcordoba.LibraryService.helper;
 
 import com.miguelcordoba.LibraryService.dto.MemberDTO;
 import com.miguelcordoba.LibraryService.persistence.entity.Member;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class MemberMapper {
-    public static MemberDTO toDTO(Member member) {
+    public MemberDTO toDTO(Member member) {
         return new MemberDTO(
                 member.getId(),
                 member.getUsername(),
@@ -17,7 +19,7 @@ public class MemberMapper {
         );
     }
 
-    public static Member toEntity(MemberDTO memberDTO) {
+    public Member toEntity(MemberDTO memberDTO) {
         return new Member(
                 memberDTO.id(),
                 memberDTO.username(),
@@ -28,15 +30,15 @@ public class MemberMapper {
         );
     }
 
-    public static List<MemberDTO> toDTOList(List<Member> members) {
+    public List<MemberDTO> toDTOList(List<Member> members) {
         return members.stream()
-                .map(MemberMapper::toDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public static List<Member> toEntityList(List<MemberDTO> memberDTOs) {
+    public List<Member> toEntityList(List<MemberDTO> memberDTOs) {
         return memberDTOs.stream()
-                .map(MemberMapper::toEntity)
+                .map(this::toEntity)
                 .collect(Collectors.toList());
     }
 }

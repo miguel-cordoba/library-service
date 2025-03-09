@@ -2,11 +2,13 @@ package com.miguelcordoba.LibraryService.helper;
 
 import com.miguelcordoba.LibraryService.dto.BookDTO;
 import com.miguelcordoba.LibraryService.persistence.entity.Book;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookMapper {
 
     //TODO: Unit Tests
-    public static BookDTO mapToDTO(Book book) {
+    public BookDTO mapToDTO(Book book) {
         return new BookDTO(
                 book.getId(),
                 book.getTitle(),
