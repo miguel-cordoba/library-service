@@ -1,11 +1,18 @@
 package com.miguelcordoba.LibraryService.helper;
 
 import com.miguelcordoba.LibraryService.dto.BookDTO;
+import com.miguelcordoba.LibraryService.persistence.entity.Author;
 import com.miguelcordoba.LibraryService.persistence.entity.Book;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
+
+    private final AuthorMapper authorMapper;
+
+    public BookMapper(AuthorMapper authorMapper){
+        this.authorMapper = authorMapper;
+    }
 
     //TODO: Unit Tests
     public BookDTO mapToDTO(Book book) {
@@ -14,17 +21,17 @@ public class BookMapper {
                 book.getTitle(),
                 book.getGenre(),
                 book.getPrice(),
-                AuthorMapper.mapToDTO(book.getAuthor())
+                authorMapper.mapToDTO(book.getAuthor())
         );
     }
 
-    public static Book mapToEntity(BookDTO bookDTO) {
+    public Book mapToEntity(BookDTO bookDTO) {
         return new Book(
                 bookDTO.id(),
                 bookDTO.title(),
                 bookDTO.genre(),
                 bookDTO.price(),
-                AuthorMapper.mapToEntity(bookDTO.author())
+                authorMapper.mapToEntity(bookDTO.author())
         );
 
 

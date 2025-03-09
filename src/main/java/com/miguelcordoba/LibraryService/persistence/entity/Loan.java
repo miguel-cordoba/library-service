@@ -20,17 +20,20 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private Long memberId;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    private Long bookId;
 
     @Column(nullable = false)
     private LocalDate lendDate;
 
     @Column
     private LocalDate returnDate;
+
+    public Loan(Long memberId, Long bookId, LocalDate lendDate, LocalDate localDate1) {
+        this.memberId = memberId;
+        this.bookId = bookId;
+        this.lendDate = lendDate;
+        this.returnDate = returnDate;
+    }
 }

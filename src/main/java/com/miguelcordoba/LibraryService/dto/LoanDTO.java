@@ -2,9 +2,9 @@ package com.miguelcordoba.LibraryService.dto;
 
 import java.time.LocalDate;
 
-public record LoanDTO(Long loanId,
+public record LoanDTO(Long id,
                       Long memberId,
-                      String bookTitle,
-                      LocalDate loanDate,
+                      Long bookId,
+                      LocalDate lendDate,
                       LocalDate returnDate) {
 }

@@ -18,11 +18,13 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final AuthorMapper authorMapper;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper, AuthorMapper authorMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
+        this.authorMapper = authorMapper;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class BookServiceImpl implements BookService {
         Optional<BookDTO> updatedBook =  bookRepository.findById(id)
                 .map(existingDoc -> {
                     existingDoc.setGenre(bookDTO.genre());
-                    existingDoc.setAuthor(AuthorMapper.mapToEntity(bookDTO.author()));
+                    existingDoc.setAuthor(authorMapper.mapToEntity(bookDTO.author()));
                     return bookRepository.save(existingDoc);
                 })
                 .map(bookMapper::mapToDTO);

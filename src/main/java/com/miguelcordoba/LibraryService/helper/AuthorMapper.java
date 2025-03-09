@@ -4,23 +4,25 @@ import com.miguelcordoba.LibraryService.dto.AuthorDTO;
 import com.miguelcordoba.LibraryService.dto.BookDTO;
 import com.miguelcordoba.LibraryService.persistence.entity.Author;
 import com.miguelcordoba.LibraryService.persistence.entity.Book;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class AuthorMapper {
 
-    public static AuthorDTO mapToDTO(Author author) {
+    public AuthorDTO mapToDTO(Author author) {
         return new AuthorDTO(author.getId(), author.getName(), author.getDateOfBirth(),  mapBookEntitySetToDTOSet(author.getBooks()));
     }
 
-    public static Author mapToEntity(AuthorDTO authorDTO) {
+    public Author mapToEntity(AuthorDTO authorDTO) {
         return new Author(authorDTO.id(), authorDTO.name(), authorDTO.dateOfBirth(), mapBookDTOSetToEntitySet(authorDTO.books()));
     }
 
-    private static Set<BookDTO> mapBookEntitySetToDTOSet(Set<Book> books) {
+    private Set<BookDTO> mapBookEntitySetToDTOSet(Set<Book> books) {
         return books.stream()
                 .map(book -> new BookDTO(
                         book.getId(),
@@ -32,7 +34,7 @@ public class AuthorMapper {
                 .collect(Collectors.toSet());
     }
 
-    public static Set<Book> mapBookDTOSetToEntitySet(Set<BookDTO> bookDTOs) {
+    public Set<Book> mapBookDTOSetToEntitySet(Set<BookDTO> bookDTOs) {
         return bookDTOs.stream()
                 .map(bookDTO -> new Book(
                         bookDTO.id(),

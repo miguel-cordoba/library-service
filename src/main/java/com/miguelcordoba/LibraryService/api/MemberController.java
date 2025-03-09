@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/members")
 @Validated
 public class MemberController {
 

@@ -15,28 +15,30 @@ import java.util.stream.Collectors;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
     }
 
     @Override
     public Optional<AuthorDTO> getAuthorById(Long id) {
-        return authorRepository.findById(id).map(AuthorMapper::mapToDTO);
+        return authorRepository.findById(id).map(authorMapper::mapToDTO);
     }
 
     @Override
     public AuthorDTO createAuthor(AuthorDTO authorDTO) {
-        Author entityAuthor = AuthorMapper.mapToEntity(authorDTO);
+        Author entityAuthor = authorMapper.mapToEntity(authorDTO);
         Author savedAuthor = authorRepository.save(entityAuthor);
-        return AuthorMapper.mapToDTO(savedAuthor);
+        return authorMapper.mapToDTO(savedAuthor);
     }
 
     @Override
     public List<AuthorDTO> getAllAuthors() {
         return authorRepository.findAll().stream()
-                .map(AuthorMapper::mapToDTO)
+                .map(authorMapper::mapToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -46,10 +48,10 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(existingAuthor -> {
                     existingAuthor.setName(authorDTO.name());
                     existingAuthor.setDateOfBirth(authorDTO.dateOfBirth());
-                    existingAuthor.setBooks(AuthorMapper.mapBookDTOSetToEntitySet(authorDTO.books()));
+                    existingAuthor.setBooks(authorMapper.mapBookDTOSetToEntitySet(authorDTO.books()));
                     return authorRepository.save(existingAuthor);
                 })
-                .map(AuthorMapper::mapToDTO);
+                .map(authorMapper::mapToDTO);
 
         return updatedAuthor;
     }
