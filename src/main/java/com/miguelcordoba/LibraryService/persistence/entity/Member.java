@@ -33,7 +33,5 @@ public class Member {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Loan> loans;
 }
 

@@ -25,9 +25,7 @@ public class MemberMapper {
                 memberDTO.username(),
                 memberDTO.email(),
                 memberDTO.address(),
-                memberDTO.phoneNumber(),
-                null  // assuming loans are handled separately
-        );
+                memberDTO.phoneNumber());
     }
 
     public List<MemberDTO> toDTOList(List<Member> members) {
