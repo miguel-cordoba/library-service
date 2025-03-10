@@ -23,6 +23,9 @@ public class Book {
     @Column
     private Double price;
     @ManyToOne
+    @JoinTable(
+            name = "documents_authors",
+            joinColumns = @JoinColumn(name = "author_id"))
     private Author author;
 
 }

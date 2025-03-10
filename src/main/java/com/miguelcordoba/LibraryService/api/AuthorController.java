@@ -42,7 +42,7 @@ public class AuthorController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable Long id) {
-        Optional<AuthorDTO> author = authorService.getAuthorById(id);
+        Optional<AuthorDTO> author = Optional.ofNullable(authorService.getAuthorById(id));
         return author.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -66,7 +66,7 @@ public class AuthorController {
             @ApiResponse(responseCode = "400", description = "Bad Request. Check input fields")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable Long id, @Valid @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable Long id, @RequestBody AuthorDTO authorDTO) {
         Optional<AuthorDTO> updatedAuthor = authorService.updateAuthor(id, authorDTO);
         return updatedAuthor.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

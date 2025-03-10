@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService {
         Optional<BookDTO> updatedBook =  bookRepository.findById(id)
                 .map(existingDoc -> {
                     existingDoc.setGenre(bookDTO.genre());
-                    existingDoc.setAuthor(authorMapper.mapToEntity(bookDTO.author()));
+                    existingDoc.setAuthor(authorMapper.mapToEntity(authorMapper.mapToDTO(bookDTO.author())));
                     return bookRepository.save(existingDoc);
                 })
                 .map(bookMapper::mapToDTO);

@@ -15,10 +15,10 @@ public record BookDTO(
         @NotBlank(message = "Genre cannot be blank")
         String genre,
 
-        @NotBlank(message = "Price cannot be blank")
+        @NotNull(message = "Price cannot be Null")
         Double price,
 
         @NotEmpty(message = "Author must not be empty")
-        AuthorDTO author
+        AuthorSummaryDTO author
 
 ) {}
