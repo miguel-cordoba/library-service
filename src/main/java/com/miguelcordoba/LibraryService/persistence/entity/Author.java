@@ -1,5 +1,6 @@
 package com.miguelcordoba.LibraryService.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class Author {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     Set<Book> books;
 
+    public Author(Long id, String name, Object o) {
+    }
 }

@@ -1,5 +1,6 @@
 package com.miguelcordoba.LibraryService.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class Book {
     @Column
     private Double price;
     @ManyToOne
+    @JoinColumn(name = "author.id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Author author;
 
 }

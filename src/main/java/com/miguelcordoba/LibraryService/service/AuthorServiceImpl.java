@@ -7,6 +7,7 @@ import com.miguelcordoba.LibraryService.persistence.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +49,6 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(existingAuthor -> {
                     existingAuthor.setName(authorDTO.name());
                     existingAuthor.setDateOfBirth(authorDTO.dateOfBirth());
-                    existingAuthor.setBooks(authorMapper.mapBookDTOSetToEntitySet(authorDTO.books()));
                     return authorRepository.save(existingAuthor);
                 })
                 .map(authorMapper::mapToDTO);

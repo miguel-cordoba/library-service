@@ -21,17 +21,17 @@ public class BookMapper {
                 book.getTitle(),
                 book.getGenre(),
                 book.getPrice(),
-                authorMapper.mapToDTO(book.getAuthor())
+                authorMapper.mapToNestedDTO(book.getAuthor())
         );
     }
 
-    public Book mapToEntity(BookDTO bookDTO) {
+    public Book mapToEntity(BookDTO bookDTO, Author author) {
         return new Book(
                 bookDTO.id(),
                 bookDTO.title(),
                 bookDTO.genre(),
                 bookDTO.price(),
-                authorMapper.mapToEntity(bookDTO.author())
+                author
         );
 
 

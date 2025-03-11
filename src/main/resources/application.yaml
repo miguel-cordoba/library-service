@@ -25,9 +25,12 @@ spring:
     password: postgres
     driverClassName: org.postgresql.Driver
 
+
+
   jpa:
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -35,7 +38,11 @@ spring:
 
   sql:
     init:
-      mode: never
+      mode: always
+      data-locations: classpath:data.sql
+      platform: postgres
+
+
 
 server:
   error:

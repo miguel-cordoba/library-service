@@ -1,10 +1,8 @@
 package com.miguelcordoba.LibraryService.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
-import java.util.Set;
 
 public record BookDTO(
         Long id,
@@ -18,7 +16,9 @@ public record BookDTO(
         @NotBlank(message = "Price cannot be blank")
         Double price,
 
-        @NotEmpty(message = "Author must not be empty")
-        AuthorDTO author
+        @Nullable
+        NestedAuthorDTO author // This allows book creation without forcing author details
 
-) {}
+) {
+
+}

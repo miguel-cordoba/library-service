@@ -1,5 +1,6 @@
 package com.miguelcordoba.LibraryService.dto;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -15,5 +16,6 @@ public record AuthorDTO(
         @NotBlank(message = "Last name cannot be blank")
         LocalDate dateOfBirth,
 
-        Set<BookDTO> books
+        @Nullable
+        Set<NestedBookDTO> books // This allows creating an author without books
 ) {}
