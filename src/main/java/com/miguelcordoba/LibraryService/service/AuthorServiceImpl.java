@@ -3,13 +3,16 @@ package com.miguelcordoba.LibraryService.service;
 import com.miguelcordoba.LibraryService.dto.AuthorDTO;
 import com.miguelcordoba.LibraryService.helper.AuthorMapper;
 import com.miguelcordoba.LibraryService.persistence.entity.Author;
+import com.miguelcordoba.LibraryService.persistence.entity.Book;
 import com.miguelcordoba.LibraryService.persistence.repository.AuthorRepository;
+import com.miguelcordoba.LibraryService.persistence.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,10 +21,13 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
+    private final BookRepository bookRepository;
+
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, BookRepository bookRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -45,10 +51,17 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<AuthorDTO> updateAuthor(Long id, AuthorDTO authorDTO) {
-        Optional<AuthorDTO> updatedAuthor =  authorRepository.findById(id)
+        //TODO: fix key duplication
+        Optional<AuthorDTO> updatedAuthor = authorRepository.findById(id)
                 .map(existingAuthor -> {
                     existingAuthor.setName(authorDTO.name());
                     existingAuthor.setDateOfBirth(authorDTO.dateOfBirth());
+                    Set<Book> bookSet = authorMapper.mapNestedBookDTOSetToEntitySet(authorDTO.books(), existingAuthor);
+                    bookSet.stream().forEach(book -> {book.setId(null);
+                        System.out.println("Book ID before save: " + book.getId()); // Should print null
+                        bookRepository.save(book);
+                                            });
+                    //bookRepository.saveAll(bookSet);
                     return authorRepository.save(existingAuthor);
                 })
                 .map(authorMapper::mapToDTO);

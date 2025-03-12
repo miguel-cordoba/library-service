@@ -25,10 +25,8 @@ public class Author {
     private String name;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @JsonIgnore
-    Set<Book> books;
+    private Set<Book> books;
 
-    public Author(Long id, String name, Object o) {
-    }
 }

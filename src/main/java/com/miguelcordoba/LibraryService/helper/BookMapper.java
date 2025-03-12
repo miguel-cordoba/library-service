@@ -14,7 +14,6 @@ public class BookMapper {
         this.authorMapper = authorMapper;
     }
 
-    //TODO: Unit Tests
     public BookDTO mapToDTO(Book book) {
         return new BookDTO(
                 book.getId(),
@@ -27,10 +26,10 @@ public class BookMapper {
 
     public Book mapToEntity(BookDTO bookDTO, Author author) {
         return new Book(
-                bookDTO.id(),
-                bookDTO.title(),
-                bookDTO.genre(),
-                bookDTO.price(),
+                bookDTO.getId(),
+                bookDTO.getTitle(),
+                bookDTO.getGenre(),
+                bookDTO.getPrice(),
                 author
         );
 

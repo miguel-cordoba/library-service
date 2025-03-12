@@ -24,7 +24,7 @@ public class Book {
     @Column
     private Double price;
     @ManyToOne
-    @JoinColumn(name = "author.id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private Author author;
 

@@ -7,6 +7,7 @@ import com.miguelcordoba.LibraryService.persistence.entity.Author;
 import com.miguelcordoba.LibraryService.persistence.entity.Book;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,12 @@ public class AuthorMapper {
     }
 
     public Author mapToEntity(AuthorDTO authorDTO) {
-        return new Author(authorDTO.id(), authorDTO.name(), authorDTO.dateOfBirth());
+        //Because of the circularity we need to first create the Author entity without books and then map the books separately.
+        Author author = new Author(authorDTO.id(), authorDTO.name(), authorDTO.dateOfBirth(), new HashSet<>()); // Empty books set first
+        Set<Book> books = mapNestedBookDTOSetToEntitySet(authorDTO.books(), author); // Now pass author
+        author.setBooks(books);
+
+        return author;
     }
 
     public NestedAuthorDTO mapToNestedDTO(Author author) {
@@ -30,13 +36,25 @@ public class AuthorMapper {
         );
     }
     //we return the nested version to avoid circular reference
-    private Set<NestedBookDTO> mapBookEntitySetToDTOSet(Set<Book> books) {
+    public Set<NestedBookDTO> mapBookEntitySetToDTOSet(Set<Book> books) {
         return books.stream()
                 .map(book -> new NestedBookDTO(
                         book.getId(),
                         book.getTitle(),
                         book.getGenre(),
                         book.getPrice()
+                ))
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Book> mapNestedBookDTOSetToEntitySet(Set<NestedBookDTO> nestedBookDTOs, Author author) {
+        return nestedBookDTOs.stream()
+                .map(nestedBookDTO -> new Book(
+                        nestedBookDTO.id(),
+                        nestedBookDTO.title(),
+                        nestedBookDTO.genre(),
+                        nestedBookDTO.price(),
+                        author
                 ))
                 .collect(Collectors.toSet());
     }

@@ -30,4 +30,6 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
+
+
 }

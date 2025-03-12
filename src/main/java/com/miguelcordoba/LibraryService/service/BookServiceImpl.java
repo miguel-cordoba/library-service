@@ -48,21 +48,26 @@ public class BookServiceImpl implements BookService {
     public BookDTO createBook(BookDTO bookDTO) {
         Author author;
         Book book = null;
+        Book savedBook;
         //Check if the author is in the db or direct the user to create it first
-        if (bookDTO.author() != null) {
+        if (bookDTO.getAuthor() != null || bookDTO.getAuthor().id() != null) {
             // Find the author by ID or throw an exception if not found
-            author = authorRepository.findById(bookDTO.author().id())
+            author = authorRepository.findById(bookDTO.getAuthor().id())
                     .orElseThrow(() -> new ResourceNotFoundException("Author not found. Please add the author first."));
 
             // Map the bookDTO to a Book entity, passing the author
             book = bookMapper.mapToEntity(bookDTO, author);
+            savedBook = bookRepository.save(book);
+
+            return bookMapper.mapToDTO(savedBook);
         }
+
+        throw new ResourceNotFoundException("Author not found. Please add the author first.");
 
         //TODO: Add creation of author + following update call of author.books after book is created. For Now strict control. Author comes first
 
-        Book savedBook = bookRepository.save(book);
         // Convert saved entity back to DTO
-        return bookMapper.mapToDTO(savedBook);
+       // return bookMapper.mapToDTO(savedBook);
     }
 
     @Override
@@ -70,8 +75,8 @@ public class BookServiceImpl implements BookService {
         Optional<BookDTO> updatedBook =  bookRepository.findById(id)
                 .map(existingDoc -> {
                     //id, title and author will not change
-                    existingDoc.setGenre(bookDTO.genre());
-                    existingDoc.setPrice(bookDTO.price());
+                    existingDoc.setGenre(bookDTO.getGenre());
+                    existingDoc.setPrice(bookDTO.getPrice());
                     return bookRepository.save(existingDoc);
                 })
                 .map(bookMapper::mapToDTO);
