@@ -1,7 +1,7 @@
 
 ## Overview
 
-This project is a backend service designed to manage `Books` and their associated `Authors`. It includes functionality for creating new books and authors, as well as handling the relationships between them. The solution was built with best practices in mind, using DTOs to separate concerns and aiming for clean code. However, due to time constraints, a few areas were left unfinished or need refinement.
+This project is a backend service designed to manage `Books` and their associated `Authors`. As well as ` Loans` and  `Members` of a Library. It includes functionality for creating new books, authors, loans and members as well as handling the relationships between them. The solution was built with best practices in mind, using DTOs to separate concerns and aiming for clean code. However, due to time constraints, a few areas were left unfinished or need refinement.
 
 ### Requirements
 
